@@ -3,8 +3,8 @@ const bodyEl = document.querySelector("#note-body");
 const removeBtn = document.querySelector("#remove_note_btn");
 
 const noteId = location.hash.substring(1);
-const notes = getSavedNotes(); //cause we don't connnect notes-app.js to edit.html & need the array once more here
-const note = notes.find(function (note) {
+let notes = getSavedNotes(); //cause we don't connnect notes-app.js to edit.html & need the array once more here
+let note = notes.find(function (note) {
   return note.id === noteId;
 });
 
@@ -29,4 +29,20 @@ removeBtn.addEventListener("click", function (event) {
   removeNote(note.id);
   saveNotes(notes);
   location.assign("/index.html");
+});
+
+window.addEventListener("storage", function (event) {
+  if (event.key === "notes") {
+    notes = JSON.parse(event.newValue);
+    let note = notes.find(function (note) {
+      return note.id === noteId;
+    });
+
+    if (note === undefined) {
+      location.assign("/index.html");
+    }
+
+    titleEl.value = note.title;
+    bodyEl.value = note.body;
+  }
 });

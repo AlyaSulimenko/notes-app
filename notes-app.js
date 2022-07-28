@@ -1,4 +1,4 @@
-const notes = getSavedNotes();
+let notes = getSavedNotes();
 
 const filters = { searchText: "" };
 
@@ -26,3 +26,10 @@ document.querySelector("#filter-by").addEventListener("change", function (e) {
   console.log(e.target.value);
 });
 //localStorage.clear();
+
+window.addEventListener("storage", function (event) {
+  if (event.key === "notes") {
+    notes = JSON.parse(event.newValue);
+    renderNotes(notes, filters);
+  }
+});
