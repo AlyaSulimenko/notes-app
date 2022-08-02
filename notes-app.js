@@ -1,6 +1,6 @@
 let notes = getSavedNotes();
 
-const filters = { searchText: "" };
+const filters = { searchText: "", sortBy: "byEdited" };
 
 //to show full list
 renderNotes(notes, filters);
@@ -31,9 +31,12 @@ document
     renderNotes(notes, filters);
   });
 
-document.querySelector("#filter-by").addEventListener("change", function (e) {
-  console.log(e.target.value);
-});
+document
+  .querySelector("#filter-by")
+  .addEventListener("change", function (event) {
+    filters.sortBy = event.target.value;
+    renderNotes(notes, filters);
+  });
 
 window.addEventListener("storage", function (event) {
   if (event.key === "notes") {

@@ -43,9 +43,46 @@ const generateNoteDOM = (note) => {
 const saveNotes = (notes) => {
   localStorage.setItem("notes", JSON.stringify(notes));
 };
+// Sort notes in one of 3 ways
+
+const sortNotes = function (notes, wayToSort) {
+  if (wayToSort === "byEdited") {
+    return notes.sort(function (a, b) {
+      if (a.updatedAt > b.updatedAt) {
+        return -1;
+      } else if (a.updatedAt < b.updatedAt) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+  } else if (wayToSort === "byCreated") {
+    return notes.sort(function (a, b) {
+      if (a.createdAt > b.createdAt) {
+        return -1;
+      } else if (a.createdAt < b.createdAt) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+  } else if (wayToSort === "alphabetical") {
+    return notes.sort(function (a, b) {
+      if (a.title.toLowerCase() < b.title.toLowerCase()) {
+        return -1;
+      } else if (a.title.toLowerCase() > b.title.toLowerCase()) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+  }
+};
 
 //Render notes that match filters
 const renderNotes = (notes, filters) => {
+  notes = sortNotes(notes, filters.sortBy);
+
   //1. creating a filtered array with elements which titles include symbols from filters.searchText
   const filteredNotes = notes.filter((note) =>
     note.title.toLowerCase().includes(filters.searchText.toLowerCase())
