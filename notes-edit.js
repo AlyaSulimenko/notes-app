@@ -23,12 +23,14 @@ dateEl.textContent = updateInfo(note);
 titleEl.addEventListener("input", function (event) {
   note.title = event.target.value;
   note.updatedAt = updatedAt;
+  dateEl.textContent = updateInfo(note);
   saveNotes(notes);
 });
 
 bodyEl.addEventListener("input", function (event) {
   note.body = event.target.value;
   note.updatedAt = updatedAt;
+  dateEl.textContent = updateInfo(note);
   saveNotes(notes);
 });
 
@@ -51,5 +53,6 @@ window.addEventListener("storage", function (event) {
 
     titleEl.value = note.title;
     bodyEl.value = note.body;
+    dateEl.textContent = updateInfo(note);
   }
 });
