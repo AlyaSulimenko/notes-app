@@ -1,5 +1,5 @@
 //check for existing saved data in Local Storage
-const getSavedNotes = function () {
+const getSavedNotes = () => {
   const notesJSON = localStorage.getItem("notes"); //trying to read data from local storage
   if (notesJSON !== null) {
     return JSON.parse(notesJSON); // if it exists (!==null), we convert notesJSON from string to array of objects
@@ -8,16 +8,14 @@ const getSavedNotes = function () {
   }
 };
 // remove note
-const removeNote = function (id) {
-  const noteIndex = notes.findIndex(function (note) {
-    return note.id === id;
-  });
+const removeNote = (id) => {
+  const noteIndex = notes.findIndex((note) => note.id === id);
   if (noteIndex > -1) {
     notes.splice(noteIndex, 1);
   }
 };
 // Generate the DOM structure for a note
-const generateNoteDOM = function (note) {
+const generateNoteDOM = (note) => {
   const noteEl = document.createElement("div");
   const noteBtn = document.createElement("button");
   const noteText = document.createElement("a");
@@ -25,7 +23,7 @@ const generateNoteDOM = function (note) {
   //button element
   noteBtn.textContent = "X";
   noteEl.appendChild(noteBtn);
-  noteBtn.addEventListener("click", function (e) {
+  noteBtn.addEventListener("click", (e) => {
     removeNote(note.id);
     saveNotes(notes);
     renderNotes(notes, filters);
@@ -42,20 +40,20 @@ const generateNoteDOM = function (note) {
   return noteEl;
 };
 //Save notes to local storage
-const saveNotes = function (notes) {
+const saveNotes = (notes) => {
   localStorage.setItem("notes", JSON.stringify(notes));
 };
 
 //Render notes that match filters
-const renderNotes = function (notes, filters) {
+const renderNotes = (notes, filters) => {
   //1. creating a filtered array with elements which titles include symbols from filters.searchText
-  const filteredNotes = notes.filter(function (note) {
-    return note.title.toLowerCase().includes(filters.searchText.toLowerCase());
-  });
+  const filteredNotes = notes.filter((note) =>
+    note.title.toLowerCase().includes(filters.searchText.toLowerCase())
+  );
   //2. Clearing the #notes div
   document.querySelector("#notes").innerHTML = " ";
   //3. filtered notes are shown in body of page one by one
-  filteredNotes.forEach(function (note) {
+  filteredNotes.forEach((note) => {
     const noteEl = generateNoteDOM(note);
     document.querySelector("#notes").appendChild(noteEl);
   });

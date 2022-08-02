@@ -8,8 +8,17 @@ renderNotes(notes, filters);
 //as for now puts into the notes array an object with empty properties ant puts the stringified version of it into local storage. Then rerenders the page
 document.querySelector("#create-note").addEventListener("click", function (e) {
   const id = uuidv4();
-  notes.push({ id: id, title: "", body: "" });
+  const now = new Date();
+  const createdAt = now.getTime();
+  notes.push({
+    id: id,
+    title: "",
+    body: "",
+    createdAt: createdAt,
+    updatedAt: createdAt,
+  });
   saveNotes(notes);
+
   //renderNotes(notes, filters);
   location.assign(`/edit.html#${id}`);
 });
@@ -25,7 +34,6 @@ document
 document.querySelector("#filter-by").addEventListener("change", function (e) {
   console.log(e.target.value);
 });
-//localStorage.clear();
 
 window.addEventListener("storage", function (event) {
   if (event.key === "notes") {
@@ -33,3 +41,4 @@ window.addEventListener("storage", function (event) {
     renderNotes(notes, filters);
   }
 });
+//localStorage.clear();
