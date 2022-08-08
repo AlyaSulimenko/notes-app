@@ -1,4 +1,6 @@
-const updateInfo = function (note) {
+"use strict";
+
+const updateInfo = (note) => {
   const momentOfUpdate = note.updatedAt;
   const now = new Date();
   const currentMoment = now.getTime();

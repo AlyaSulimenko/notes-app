@@ -1,9 +1,11 @@
 //check for existing saved data in Local Storage
+"use strict";
+
 const getSavedNotes = () => {
   const notesJSON = localStorage.getItem("notes"); //trying to read data from local storage
-  if (notesJSON !== null) {
-    return JSON.parse(notesJSON); // if it exists (!==null), we convert notesJSON from string to array of objects
-  } else {
+  try {
+    return notesJSON ? JSON.parse(notesJSON) : [];
+  } catch (error) {
     return [];
   }
 };
@@ -45,9 +47,9 @@ const saveNotes = (notes) => {
 };
 // Sort notes in one of 3 ways
 
-const sortNotes = function (notes, wayToSort) {
+const sortNotes = (notes, wayToSort) => {
   if (wayToSort === "byEdited") {
-    return notes.sort(function (a, b) {
+    return notes.sort((a, b) => {
       if (a.updatedAt > b.updatedAt) {
         return -1;
       } else if (a.updatedAt < b.updatedAt) {
@@ -57,7 +59,7 @@ const sortNotes = function (notes, wayToSort) {
       }
     });
   } else if (wayToSort === "byCreated") {
-    return notes.sort(function (a, b) {
+    return notes.sort((a, b) => {
       if (a.createdAt > b.createdAt) {
         return -1;
       } else if (a.createdAt < b.createdAt) {
@@ -67,7 +69,7 @@ const sortNotes = function (notes, wayToSort) {
       }
     });
   } else if (wayToSort === "alphabetical") {
-    return notes.sort(function (a, b) {
+    return notes.sort((a, b) => {
       if (a.title.toLowerCase() < b.title.toLowerCase()) {
         return -1;
       } else if (a.title.toLowerCase() > b.title.toLowerCase()) {
